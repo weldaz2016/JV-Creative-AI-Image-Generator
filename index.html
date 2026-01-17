@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JV Creative Graphics AI Image Generator</title>
+    <meta name="theme-color" content="#05040b" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-8m6Gsk6xqv+X5H0Vt1PDw7XQG8HCO0sGPsYkD7VBx5g9E3kK9i8B4v8N3S9+o9k0ZVJ3xW8QpG0Vv0wWw2l9gA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-logo">JV</div>
+          <div class="brand-text">
+            <span>JV Creative</span>
+            <small>AI Image Generator</small>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="nav-item active" data-target="generators">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            AI Generators
+          </button>
+          <button class="nav-item" data-target="editor">
+            <i class="fa-solid fa-pen-nib"></i>
+            Editor
+          </button>
+          <button class="nav-item" data-target="sketch">
+            <i class="fa-solid fa-pencil"></i>
+            Sketch Pad
+          </button>
+          <button class="nav-item" data-target="export">
+            <i class="fa-solid fa-folder-open"></i>
+            Export Folder
+          </button>
+          <button class="nav-item" data-target="settings">
+            <i class="fa-solid fa-gear"></i>
+            Settings
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="status-pill">
+            <span class="pulse"></span>
+            GPT-5 + GPT-Image-1 Ready
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <h1>JV Creative Graphics AI Studio</h1>
+            <p>High-performance PWA workspace for image, video, and text graphics generation.</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button">Open Tutorial</button>
+            <button class="ghost-button">Upload Reference</button>
+            <button class="primary-button">New Project</button>
+          </div>
+        </header>
+
+        <section class="panel active" id="generators">
+          <div class="panel-header">
+            <h2>AI Powered Generations</h2>
+            <span class="badge">Multi-Modal Suite</span>
+          </div>
+          <div class="onboarding">
+            <div>
+              <h3>Guided Start</h3>
+              <p>Pick a prompt preset or start from scratch to generate your first asset.</p>
+            </div>
+            <div class="chip-row">
+              <button class="chip">Logo Pack</button>
+              <button class="chip">Merch Design</button>
+              <button class="chip">Social Post</button>
+              <button class="chip">Seamless Pattern</button>
+              <button class="chip">3D Bubble Text</button>
+            </div>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <h3>Text Prompt → Image</h3>
+              <p>Generate stylized visuals with reference support and face preservation toggles.</p>
+              <div class="field">
+                <label for="image-prompt">Prompt</label>
+                <textarea id="image-prompt" rows="3" placeholder="Describe the image you want to create..."></textarea>
+                <small>Tip: mention subject, style, lighting, and output use case.</small>
+              </div>
+              <div class="field-row">
+                <label class="file-button" for="image-reference">
+                  Add Photo Reference
+                  <input id="image-reference" type="file" accept="image/*" hidden />
+                </label>
+                <div class="toggle">
+                  <input type="checkbox" id="preserve-faces" checked />
+                  <label for="preserve-faces">Preserve Faces</label>
+                </div>
+              </div>
+              <div class="preset-grid">
+                <button class="preset-card">
+                  <span>Vintage Tee</span>
+                  <small>Ink texture, 2 colors, distressed</small>
+                </button>
+                <button class="preset-card">
+                  <span>Neon Poster</span>
+                  <small>Electric glow, city skyline</small>
+                </button>
+                <button class="preset-card">
+                  <span>Laser Cut</span>
+                  <small>High-contrast silhouette, vector ready</small>
+                </button>
+              </div>
+              <div class="card-options">
+                <div>
+                  <label>Output Styles</label>
+                  <div class="chip-row">
+                    <span class="chip">Realistic</span>
+                    <span class="chip">B&amp;W</span>
+                    <span class="chip">Vintage</span>
+                    <span class="chip">Retro</span>
+                    <span class="chip">Cartoon</span>
+                  </div>
+                </div>
+                <div>
+                  <label>File Outputs</label>
+                  <div class="chip-row">
+                    <span class="chip">SVG</span>
+                    <span class="chip">PNG</span>
+                    <span class="chip">JPG</span>
+                    <span class="chip">GIF</span>
+                    <span class="chip">TIFF</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button class="ghost-button" id="send-to-editor">Send to Editor</button>
+                <button class="primary-button" id="generate-image">Generate Image</button>
+              </div>
+              <div class="progress-track">
+                <div class="progress-line"></div>
+                <div class="progress-meta">
+                  <span>Queue: 2 jobs</span>
+                  <span>ETA: 18s</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Text Prompt → Video</h3>
+              <p>Animate concepts with duration sliders, aspect ratio presets, and cinematic styles.</p>
+              <div class="field">
+                <label for="video-prompt">Prompt</label>
+                <textarea id="video-prompt" rows="3" placeholder="Describe the motion and atmosphere..."></textarea>
+                <small>Tip: specify camera movement, pacing, and style references.</small>
+              </div>
+              <div class="slider-group">
+                <label>Duration</label>
+                <input type="range" min="3" max="30" value="12" />
+                <div class="slider-labels">
+                  <span>3s</span>
+                  <span>30s</span>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="select">
+                  <label for="aspect-ratio">Aspect Ratio</label>
+                  <select id="aspect-ratio">
+                    <option>16:9</option>
+                    <option>9:16</option>
+                    <option>1:1</option>
+                    <option>4:5</option>
+                  </select>
+                </div>
+                <label class="file-button" for="video-reference">
+                  Add Photo Reference
+                  <input id="video-reference" type="file" accept="image/*" hidden />
+                </label>
+              </div>
+              <div class="card-options">
+                <div>
+                  <label>Output Types</label>
+                  <div class="chip-row">
+                    <span class="chip">MP4</span>
+                    <span class="chip">GIF</span>
+                  </div>
+                </div>
+                <div>
+                  <label>Use Cases</label>
+                  <div class="chip-row">
+                    <span class="chip">Social</span>
+                    <span class="chip">Web Banners</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button class="ghost-button" id="download-video-preview">Download Preview</button>
+                <button class="primary-button" id="generate-video">Generate Video</button>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Reverse Image AI</h3>
+              <p>Analyze, remix, and extract design elements from uploaded visuals.</p>
+              <div class="field-row">
+                <label class="file-button" for="reverse-image">
+                  Upload Image
+                  <input id="reverse-image" type="file" accept="image/*" hidden />
+                </label>
+                <label class="file-button ghost" for="reverse-style">
+                  Add Style Reference
+                  <input id="reverse-style" type="file" accept="image/*" hidden />
+                </label>
+              </div>
+              <div class="card-options">
+                <div>
+                  <label>Use Cases</label>
+                  <div class="chip-row">
+                    <span class="chip">T-Shirt</span>
+                    <span class="chip">Cricut</span>
+                    <span class="chip">Sublimation</span>
+                    <span class="chip">Laser</span>
+                  </div>
+                </div>
+                <div>
+                  <label>Output Types</label>
+                  <div class="chip-row">
+                    <span class="chip">SVG</span>
+                    <span class="chip">PNG</span>
+                    <span class="chip">JPG</span>
+                    <span class="chip">BMP</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button class="ghost-button" id="send-to-sketch">Send to Sketch Pad</button>
+                <button class="primary-button" id="generate-variations">Generate Variations</button>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Text → 2D / 3D / Bubble Text</h3>
+              <p>Create vector-ready typography with lighting, bevels, and glossy finishes.</p>
+              <div class="field-row">
+                <div class="field grow">
+                  <label for="text-input">Text Input</label>
+                  <input id="text-input" type="text" placeholder="Type your headline..." />
+                </div>
+                <button class="secondary-button">Choose Font</button>
+              </div>
+              <div class="card-options">
+                <div>
+                  <label>Text Modes</label>
+                  <div class="chip-row">
+                    <span class="chip">2D</span>
+                    <span class="chip">3D</span>
+                    <span class="chip">Bubble</span>
+                  </div>
+                </div>
+                <div>
+                  <label>Output Types</label>
+                  <div class="chip-row">
+                    <span class="chip">SVG</span>
+                    <span class="chip">PNG</span>
+                    <span class="chip">JPG</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button class="ghost-button" id="upload-to-editor">Upload to Editor</button>
+                <button class="primary-button" id="render-typography">Render Typography</button>
+              </div>
+            </article>
+          </div>
+          <div class="history">
+            <div class="panel-header">
+              <h3>Generation History</h3>
+              <span class="badge">Last 10</span>
+            </div>
+            <div class="history-grid" id="history-grid"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="editor">
+          <div class="panel-header">
+            <h2>Professional Graphics & Photo Editor</h2>
+            <span class="badge">Pro Suite</span>
+          </div>
+          <div class="editor-toolbar">
+            <button class="secondary-button">Layers</button>
+            <button class="secondary-button">History</button>
+            <button class="secondary-button">AI Tools</button>
+            <button class="primary-button">Open Canvas</button>
+          </div>
+          <div class="split">
+            <div class="glass">
+              <h3>Tool Arsenal</h3>
+              <ul>
+                <li>Smart selection, lasso, magic wand, and precision masks.</li>
+                <li>Retouching tools: healing, clone, dodge/burn, blur, sharpen.</li>
+                <li>Vector editing with node controls and SVG export.</li>
+                <li>AI enhancements: object removal, upscaling, background swaps.</li>
+              </ul>
+            </div>
+            <div class="glass">
+              <h3>Workspace Panels</h3>
+              <ul>
+                <li>Layers panel with blend modes, groups, and live previews.</li>
+                <li>Properties inspector for typography, filters, and transforms.</li>
+                <li>History timeline with branching undo/redo.</li>
+                <li>Real-time preview viewport with zoom + perspective warp.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="sketch">
+          <div class="panel-header">
+            <h2>Comprehensive Sketch Pad</h2>
+            <span class="badge">Studio Canvas</span>
+          </div>
+          <div class="grid two-columns">
+            <div class="glass">
+              <h3>Brush Engine</h3>
+              <p>Pencil, marker, watercolor, charcoal, and airbrush with texture controls.</p>
+              <div class="progress">
+                <div class="progress-bar" style="width: 78%"></div>
+              </div>
+              <small>Pressure simulation + stroke smoothing enabled.</small>
+            </div>
+            <div class="glass">
+              <h3>Smart Assist</h3>
+              <p>Auto colorization, symmetry, guides, and AI linework cleanup.</p>
+              <div class="progress">
+                <div class="progress-bar alt" style="width: 62%"></div>
+              </div>
+              <small>AI boost ready for complex illustrations.</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="export">
+          <div class="panel-header">
+            <h2>Export Folder</h2>
+            <span class="badge">Auto-synced</span>
+          </div>
+          <div class="export-toolbar">
+            <input type="text" placeholder="Search projects" />
+            <div class="select">
+              <label for="sort-by">Sort By</label>
+              <select id="sort-by">
+                <option>Recent</option>
+                <option>Largest</option>
+                <option>Name</option>
+              </select>
+            </div>
+            <div class="select">
+              <label for="folder">Folder</label>
+              <select id="folder">
+                <option>All</option>
+                <option>Merch</option>
+                <option>Social</option>
+                <option>Laser Cut</option>
+              </select>
+            </div>
+            <div class="chip-row">
+              <button class="ghost-button">Filter</button>
+              <button class="ghost-button">Tag</button>
+              <button class="ghost-button">Download Zip</button>
+              <button class="primary-button">Connect Cloud</button>
+            </div>
+          </div>
+          <div class="export-grid" id="export-grid"></div>
+        </section>
+
+        <section class="panel" id="settings">
+          <div class="panel-header">
+            <h2>Settings</h2>
+            <span class="badge">Personalize</span>
+          </div>
+          <div class="grid two-columns">
+            <div class="glass">
+              <h3>Appearance</h3>
+              <p>Toggle particle density, accent palette, and motion intensity.</p>
+              <button class="secondary-button">Customize Theme</button>
+            </div>
+            <div class="glass">
+              <h3>Export Defaults</h3>
+              <p>Set output types, naming templates, and cloud sync preferences.</p>
+              <button class="secondary-button">Manage Outputs</button>
+            </div>
+            <div class="glass">
+              <h3>Subscription Plans</h3>
+              <p>Upgrade for unlimited generations, priority queues, and cloud sync.</p>
+              <div class="chip-row">
+                <button class="chip">Free</button>
+                <button class="chip">Creator $19/mo</button>
+                <button class="chip">Studio $49/mo</button>
+                <button class="chip">Enterprise $199/mo</button>
+              </div>
+              <button class="primary-button">Upgrade Now</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="ambient" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
