@@ -1,0 +1,15 @@
+{
+  "name": "JV Creative Graphics AI Image Generator",
+  "short_name": "JV Creative AI",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#05040b",
+  "theme_color": "#26f7ff",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "128x128",
+      "type": "image/svg+xml"
+    }
+  ]
+}
